@@ -1,0 +1,28 @@
+{
+  "name": "enproject",
+  "version": "1.0.0",
+  "description": "Testing to see if commit works",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Samauraiex123/ENProject.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Samauraiex123/ENProject/issues"
+  },
+  "homepage": "https://github.com/Samauraiex123/ENProject#readme",
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "method-override": "^3.0.0",
+    "mongoose": "^8.13.2",
+    "node.js": "^0.0.1-security"
+  }
+}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Matching Game</title> <link rel="stylesheet" href="/Matching Game/matching.css">
+</head>
+<body>
+    <div class="game-container">
+        <center>
+            <h1>Math Matching Game</h1> <p id="timer">Time: 0s</p> </center>
+        <div class="grid"></div>
+        <div class="end-message hidden">
+            <h2>You solved it!</h2> <p id="final-time"></p> <form id="score-form" action="/games/matching/score" method="POST">
+                <label for="name">Enter your name:</label>
+                <input type="text" id="name" name="name" required>
+                <input type="hidden" id="timeTaken" name="timeTaken">
+                <button type="submit">Submit Score</button>
+            </form>
+        </div>
+        <a href="/games/matching/leaderboard">View Leaderboard</a>
+    </div>
+    <script src="/Matching Game/matching.js"></script>
+</body>
+</html>

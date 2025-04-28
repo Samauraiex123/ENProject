@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0f0f0f;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        .leaderboard-container {
+            text-align: center;
+            background-color: #222;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        h1 {
+            font-size: 40px;
+            color: #13eb1a;
+            margin-bottom: 20px;
+        }
+        
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        
+        .leaderboard-table th, .leaderboard-table td {
+            padding: 12px;
+            border-bottom: 1px solid #444;
+            text-align: left;
+            color: greenyellow;
+        }
+        
+        .leaderboard-table th {
+            background-color: #333;
+            color: lightgreen;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9em;
+        }
+        
+        .leaderboard-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .leaderboard-table tbody tr:nth-child(even) {
+            background-color: #2a2a2a;
+        }
+        
+        .leaderboard-table tbody tr:hover {
+            background-color: #383838;
+        }
+        
+        .leaderboard-table tbody tr:nth-child(1) td {
+            color: gold;
+            font-weight: bold;
+        }
+        .leaderboard-table tbody tr:nth-child(2) td {
+            color: silver;
+            font-weight: bold;
+        }
+        .leaderboard-table tbody tr:nth-child(3) td {
+            color: #cd7f32;
+            font-weight: bold;
+        }
+        
+        nav {
+            margin-top: 20px;
+        }
+        
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: whitesmoke;
+            font-size: 1.1em;
+            transition: color 0.3s ease;
+        }
+        
+        nav a:hover {
+            color: whitesmoke;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="leaderboard-container">
+        <h1>Matching Game Leaderboard</h1>
+
+        <table class="leaderboard-table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Time (s)</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (scores && scores.length > 0) { %>
+                    <% scores.forEach((score, index) => { %>
+                        <tr>
+                            <td><%= index + 1 %></td>
+                            <td><%= score.name %></td>
+                            <td><%= score.timeTaken %></td>
+                            <td><%= score.createdAt.toLocaleDateString() %></td>
+                        </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="4">No scores yet. Be the first to play!</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+
+        <nav>
+            <a href="/games/matching">Play Again</a>
+            <a href="/games">Back to Games List</a>
+            <a href="/">Back to Home</a>
+        </nav>
+
+    </div>
+
+</body>
+</html>
