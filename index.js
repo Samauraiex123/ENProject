@@ -69,8 +69,14 @@ app.get('/games/matching/leaderboard', async (req, res) => {
   }
 });
 
+// Source: https://stackoverflow.com/questions/3452546/how-do-i-get-the-youtube-video-id-from-a-url
+function getYouTubeVideoID(url) {
+  const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i;
+  const match = url.match(regex);
+  return match ? match[1] : null;
+}
+
 app.get('/videos', (req, res) => {
- 
   const rawVideos = [
     { id: 1, title: 'Exercise Video 1', url: 'https://youtu.be/QHPi3tVbq6U?si=nGKwlkb5ngbLbI2b' },
     { id: 2, title: 'Exercise Video 2', url: 'https://youtu.be/8Jqe2pCVcGs?si=n9fyuXA6jCSrJxVG' },
@@ -83,8 +89,7 @@ app.get('/videos', (req, res) => {
   ];
 
   const videos = rawVideos.map(v => {
-    // grab ID between last slash and any query
-    const vid = v.url.split('/').pop().split('?')[0];
+    const vid = getYouTubeVideoID(v.url);
     return {
       ...v,
       embedUrl: `https://www.youtube.com/embed/${vid}`
@@ -93,6 +98,7 @@ app.get('/videos', (req, res) => {
 
   res.render('videos', { videos });
 });
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
