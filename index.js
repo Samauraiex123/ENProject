@@ -85,7 +85,7 @@ app.get('/videos', (req, res) => {
     { id: 5, title: 'Exercise Video 5', url: 'https://youtu.be/oxdGXfwKE0k?si=ze34IuxgJB3H-tZk' },
     { id: 6, title: 'Exercise Video 6', url: 'https://youtu.be/aW-U66Uwm2c?si=sCuE1HLXVdpmgDhG' },
     { id: 7, title: 'Exercise Video 7', url: 'https://youtu.be/1jdCNdTqJbI?si=gH1BgDe67c6O8I1s' },
-    { id: 8, title: 'Exercise Video 8', url: 'https://youtu.be/elk5PpYyF-M?si=XzfHNqw0kMXpfm1B' },
+    { id: 8, title: 'Super Sigma Skibidi', url: 'https://youtu.be/elk5PpYyF-M?si=XzfHNqw0kMXpfm1B' },
   ];
 
   const videos = rawVideos.map(v => {

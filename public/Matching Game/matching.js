@@ -24,14 +24,15 @@ let matchedTiles = 0;
 const matchSound = new Audio('/Matching Game/match-sound.mp3'); // Ensure path is correct
 
 // Function to generate simple math problems (addition and subtraction)
+//CREDIT: 
 function generateMathPairs() {
-    mathPairs = []; // Clear any existing pairs
-    const usedPairs = new Set(); // To ensure unique pairs
+    mathPairs = []; 
+    const usedPairs = new Set(); 
 
     while (mathPairs.length < numberOfPairs) {
         let a, b, problem, answer, result;
         const add = Math.random() < 0.5;
-        let opeartionType;
+        let operationType;
         if (add) {
             operationType = 'add';
         }
@@ -40,21 +41,19 @@ function generateMathPairs() {
         }
 
         if (operationType === 'add') {
-            // Generate simple addition
-            a = Math.floor(Math.random() * 10) + 1; // Numbers between 1 and 10
+            a = Math.floor(Math.random() * 10) + 1; 
             b = Math.floor(Math.random() * 10) + 1;
             result = a + b;
-            if (result > 20) continue; // Keep answers within a reasonable range
+            if (result > 20) continue;
             problem = `${a} + ${b}`;
             answer = result.toString();
         } else {
-            // Generate simple subtraction (ensure result is not negative)
-            a = Math.floor(Math.random() * 15) + 5; // Start with a slightly larger number
-            b = Math.floor(Math.random() * 5) + 1; // Subtract a smaller number
-            if (a < b) [a, b] = [b, a]; // Swap if a is smaller than b
+            a = Math.floor(Math.random() * 15) + 5;
+            b = Math.floor(Math.random() * 5) + 1; 
+            if (a < b) [a, b] = [b, a]; 
             result = a - b;
-             if (result < 0) continue; // Ensure non-negative result
-             if (result > 10 && a < 15) continue; // Avoid large answers from small numbers
+             if (result < 0) continue; 
+             if (result > 10 && a < 15) continue; 
             problem = `${a} - ${b}`;
             answer = result.toString();
         }
@@ -70,7 +69,7 @@ function generateMathPairs() {
     }
 }
 
-//Shuffles array(i just searched this up to be hoenst)
+//CREDIT: Fisher Yates Method - https://www.w3schools.com/js/tryit.asp?filename=tryjs_array_sort_random2
 function shuffle(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -188,9 +187,7 @@ function checkMatch() {
         // Add 'matched' class and disable clicking on these tiles
         firstTile.classList.add('matched');
         secondTile.classList.add('matched');
-        // firstTile.style.pointerEvents = 'none'; // Already handled by .matched class in CSS or flipTile logic
-        // secondTile.style.pointerEvents = 'none';
-
+        
         matchSound.play(); // Play the match sound effect
 
         flippedTiles = []; // Reset the flipped tiles list
