@@ -3,21 +3,21 @@
 /* Style for the main heading */
 h1 {
     font-size: 60px; /* Slightly reduced font size */
-    color: white;
+    color: black;
     margin-bottom: 10px; /* Added margin */
 }
 
 /* Style for the timer display */
 #timer {
     font-size: 24px;
-    color: white;
+    color: black; 
     margin-bottom: 20px;
 }
 
 /* Style for "you solved it" message */
 h2 {
     font-size: 40px; /* Slightly reduced font size */
-    background-color: #13eb1a;
+    background-color: darkolivegreen;
     padding: 10px; /* Added padding */
     border-radius: 8px; /* Rounded corners */
 }
@@ -25,14 +25,14 @@ h2 {
 /* Style for the final time display in the end message */
 #final-time {
     font-size: 24px;
-    color: #333; /* Darker color */
+    color: #ccc; 
     margin-bottom: 20px;
 }
 
 /* General body styles */
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #0f0f0f; /* Slightly lighter black */
+    background-color: #f0f0f0; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -45,10 +45,10 @@ body {
 .game-container {
     text-align: center;
     position: relative;
-    background-color: #222; 
+    background-color: #ddd;
     padding: 30px;
     border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Add subtle shadow */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Adjusted shadow for light mode */
 }
 
 /* Grid layout for tiles (Updated for 16 tiles) */
@@ -65,8 +65,8 @@ body {
 .tile {
     width: 90px; /* Match grid size */
     height: 90px; /* Match grid size */
-    background-color: #555; /* Default hidden background color */
-    color: white; /* Text color for hidden state */
+    background-color: #aaa; /* Inverted from default hidden background color */
+    color: black; /* Inverted from text color for hidden state */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -88,8 +88,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f0f0f0; /* Light background for visible side */
-    color: #333; /* Dark text for readability */
+    background-color: #0f0f0f; /* Inverted from light background for visible side */
+    color: #ccc; /* Inverted from dark text for readability */
     border-radius: 8px;
     transform: rotateY(180deg); /* Start rotated for the flip */
 }
@@ -103,8 +103,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #555; /* Match default background */
-    color: white; /* Text color for the back (e.g., "?") */
+    background-color: #aaa; /* Inverted from match default background */
+    color: black; /* Inverted from text color for the back (e.g., "?") */
     border-radius: 8px;
 }
 
@@ -117,7 +117,7 @@ body {
 /* Style for matched tiles */
 .tile.matched {
      /* Maintain flipped state, maybe change border/background slightly */
-     border: 2px solid #13eb1a; /* Green border */
+     border: 2px solid darkolivegreen; /* Green border */
      /* background-color: #13eb1a; /* Optional: change background on match */
      pointer-events: none; /* Disabled by JS, but good to have here too */
 }
@@ -130,7 +130,7 @@ body {
 
 /* Styles for the score form */
 #score-form label {
-    color: white;
+    color: black; /* Inverted from white */
     font-size: 18px;
     margin-right: 10px;
 }
@@ -145,8 +145,8 @@ body {
 
 #score-form button {
     padding: 10px 20px;
-    background-color: #13eb1a;
-    color: #333;
+    background-color: darkolivegreen;
+    color: #ccc; /* Changed from dark gray */
     border: none;
     border-radius: 4px;
     font-size: 18px;
@@ -155,12 +155,12 @@ body {
 }
 
 #score-form button:hover {
-    background-color: #0fcc14;
+    background-color: darkolivegreen;
 }
 
 /* Style for the leaderboard link */
 .game-container a {
-    color: #13eb1a;
+    color: darkolivegreen;
     text-decoration: none;
     font-size: 18px;
     margin-top: 20px;
