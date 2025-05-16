@@ -1,3 +1,5 @@
+//test change 1 - by adhvik harikrishnan
+
 import express from 'express';
 import path from 'path';
 import mongoose from 'mongoose';
@@ -32,6 +34,7 @@ const scoreSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
+
 
 const Score = mongoose.model('Score', scoreSchema);
 
