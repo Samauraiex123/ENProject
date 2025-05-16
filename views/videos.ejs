@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Exercise Videos</title>
   <style>
+    /*
+      Basic styling for page (body, headings, navigation links)
+      Sets up background, font, colors, and spacing
+    */
     body {
       font-family: Arial, sans-serif;
       background-color: white;
@@ -30,6 +34,7 @@
       text-decoration: underline;
     }
 
+    /* Styles for search bar container and the input field */
     .search-container {
       margin-bottom: 20px;
     }
@@ -49,6 +54,10 @@
       color: #888;
     }
 
+    /*
+      Styles for main list container holding video items
+      Uses flexbox for arranging video cards in responsive grid
+    */
     .list {
       display: flex;
       flex-wrap: wrap;
@@ -59,31 +68,44 @@
       list-style: none;
     }
 
+    /*
+      Styles for each individual video card
+      Sets background, border, padding, width, and a little shadow
+    */
     .video-item {
       background-color: #f9f9f9;
       border: 1px solid #ddd;
       border-radius: 8px;
       padding: 15px;
-      width: 300px;
+      width: 300px; /* Fixed width for each card */
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      text-align: left;
+      text-align: left; /* Aligns text inside the card */
     }
 
+    /* Styles for the video title within the card */
     .video-card h3 {
       margin-top: 0;
       color: #333;
       font-size: 1.2em;
     }
 
+    /*
+      Styles for the video container to ensure the embedded video
+      (like an iframe) maintains 16:9 aspect ratio
+    */
     .video-container {
       position: relative;
       width: 100%;
-      padding-bottom: 56.25%;
+      padding-bottom: 56.25%; 
       height: 0;
       overflow: hidden;
       margin-bottom: 10px;
     }
 
+    /*
+      Styles for the actual embedded video element (iframe or video tag)
+      to make it fill its container while maintaining the aspect ratio
+    */
     .video-container iframe,
     .video-container video {
       position: absolute;
@@ -97,11 +119,11 @@
 <body>
 
   <h1>Exercise Videos</h1>
+
   <nav>
     <a href="/">Home</a>
     <a href="/games">Games</a>
   </nav>
-  
 
   <div id="videoGallery">
     <div class="search-container">
@@ -111,7 +133,7 @@
         placeholder="Search by title..."
       />
     </div>
-    <!-- CREDITs: https://stackoverflow.com/questions/57360956/in-the-html-code-to-embed-a-youtube-video-what-does-accelerometer-gyroscope-a-->
+
     <div class="list">
       <% if (videos && videos.length) { %>
         <% videos.forEach(video => { %>
@@ -132,12 +154,14 @@
       <% } %>
     </div>
   </div>
-  <!-- CREDITs: https://cdnjs.com/libraries/list.js/2.3.1 -->
+
   <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
+
   <script>
-    var videoList = new List('videoGallery', {
-      valueNames: ['video-title'],
-      listClass: 'list'
+    // Creates a new List.js object.
+    var videoList = new List('videoGallery', { // Specifies the container element by its ID
+      valueNames: ['video-title'], // Tells List.js to search within elements with the class 'video-title'
+      listClass: 'list' // Tells List.js which element contains the actual list items
     });
   </script>
 
