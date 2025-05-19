@@ -6,8 +6,7 @@
   <title>Exercise Videos</title>
   <style>
     /*
-      Basic styling for page (body, headings, navigation links)
-      Sets up background, font, colors, and spacing
+      Mainly sets up background and text alignment for page
     */
     body {
       font-family: Arial, sans-serif;
@@ -17,11 +16,13 @@
       text-align: center;
     }
 
+    /* Defines color and size of header "Exercise Video" */
     h1 {
       color: black;
       font-size: 4em;
     }
 
+    /* Styles navigation links */
     nav a {
       margin: 0 10px;
       text-decoration: none;
@@ -30,15 +31,17 @@
       margin: 2em;
     }
 
+    /* Adds underline when mouse hovers over */
     nav a:hover {
       text-decoration: underline;
     }
 
-    /* Styles for search bar container and the input field */
+    /* Adds space below search bar. */
     .search-container {
       margin-bottom: 20px;
     }
 
+    /* Defines search input's background and text color along with size and spacing */
     .search-container input {
       padding: 10px;
       font-size: 1em;
@@ -50,13 +53,13 @@
       color: black;
     }
 
+    /* Sets color of placeholder text in search input */
     .search-container input::placeholder {
       color: #888;
     }
 
     /*
-      Styles for main list container holding video items
-      Uses flexbox for arranging video cards in responsive grid
+      Arranges list items (similar to video cards) in grid layout using flexbox
     */
     .list {
       display: flex;
@@ -69,20 +72,19 @@
     }
 
     /*
-      Styles for each individual video card
-      Sets background, border, padding, width, and a little shadow
+      Styles each individual video card
     */
     .video-item {
       background-color: #f9f9f9;
       border: 1px solid #ddd;
       border-radius: 8px;
       padding: 15px;
-      width: 300px; /* Fixed width for each card */
+      width: 300px; 
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      text-align: left; /* Aligns text inside the card */
+      text-align: left; 
     }
 
-    /* Styles for the video title within the card */
+    /* Styles the title heading within a video card */
     .video-card h3 {
       margin-top: 0;
       color: #333;
@@ -90,21 +92,19 @@
     }
 
     /*
-      Styles for the video container to ensure the embedded video
-      (like an iframe) maintains 16:9 aspect ratio
+      Sets up container for embedded videos
     */
     .video-container {
       position: relative;
       width: 100%;
-      padding-bottom: 56.25%; 
+      padding-bottom: 60%;
       height: 0;
       overflow: hidden;
       margin-bottom: 10px;
     }
 
     /*
-      Styles for the actual embedded video element (iframe or video tag)
-      to make it fill its container while maintaining the aspect ratio
+      Makes actual video fill its container
     */
     .video-container iframe,
     .video-container video {
@@ -133,13 +133,14 @@
         placeholder="Search by title..."
       />
     </div>
-
+    
     <div class="list">
       <% if (videos && videos.length) { %>
         <% videos.forEach(video => { %>
           <div class="video-item video-card">
             <h3 class="video-title"><%= video.title %></h3>
             <div class="video-container">
+              <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Permissions-Policy#directives -->
               <iframe
                 src="<%= video.embedUrl %>"
                 frameborder="0"
@@ -158,11 +159,11 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
 
   <script>
-    //Creates a new List.js object
-    var videoList = new List('videoGallery', { //Specifies the container element by its ID
-      valueNames: ['video-title'], //Tells List.js to search within elements with the class 'video-title'
-      listClass: 'list' //Tells List.js which element contains the actual list items
-    });
+    // Creates new instance of the List.js object
+    var videoList = new List('videoGallery', { // Specifies container element List.js should manage by its ID('videoGallery'), meaning it will look inside this element for list and search input
+    valueNames: ['video-title'], // Tells List.js to use text content of elements with class 'video-title' for searching and sorting
+    listClass: 'list' // Tells List.js which element in main container 'videoGallery' holds actual list items, so basically looks for elements with class 'list'
+  });
   </script>
 
 </body>

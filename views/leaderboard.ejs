@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leaderboard</title>
     <style>
+        /* Defines background of page and centers content */
         body {
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
@@ -15,6 +16,7 @@
             box-sizing: border-box;
         }
 
+        /* Styles main container for leaderboard */
         .leaderboard-container {
             text-align: center;
             background-color: #ddd;
@@ -25,18 +27,21 @@
             width: 100%;
         }
 
+        /* Styles main heading "Matching Game Leaderboard" */
         h1 {
             font-size: 40px;
             color: darkolivegreen;
             margin-bottom: 20px;
         }
 
+        /* Styles leaderboard table (Especially top) */
         .leaderboard-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
 
+        /* Styles all cells in the leaderboard table */
         .leaderboard-table th, .leaderboard-table td {
             padding: 12px;
             border-bottom: 1px solid #bbb;
@@ -44,6 +49,7 @@
             color: darkolivegreen;
         }
 
+        /* Styles specifically the table header cells */
         .leaderboard-table th {
             background-color: #ccc;
             color: darkolivegreen;
@@ -52,35 +58,43 @@
             font-size: 0.9em;
         }
 
+        /* Removes bottom border from data cells (td) in last row of table body */
         .leaderboard-table tbody tr:last-child td {
             border-bottom: none;
         }
 
+        /* Styles background color of even-numbered rows in table body for stripe effect */
         .leaderboard-table tbody tr:nth-child(even) {
             background-color: #d5d5d5;
         }
 
+        /* Changes background color of rows in table body when mouse hovers over */
         .leaderboard-table tbody tr:hover {
             background-color: #c7c7c7;
         }
 
+        /* Styles data cells in first row of table body for 1st place entry. */
         .leaderboard-table tbody tr:nth-child(1) td {
             color: darkgoldenrod;
             font-weight: bold;
         }
+        /* Styles data cells in first row of table body for 2nd place entry. */
         .leaderboard-table tbody tr:nth-child(2) td {
             color: darkgrey;
             font-weight: bold;
         }
+        /* Styles data cells in first row of table body for 3rd place entry. */
         .leaderboard-table tbody tr:nth-child(3) td {
             color: #633f1b;
             font-weight: bold;
         }
 
+        /* Styles navigation container */
         nav {
             margin-top: 20px;
         }
 
+        /* Styles navigation links */
         nav a {
             margin: 0 15px;
             text-decoration: none;
@@ -89,6 +103,7 @@
             transition: color 0.3s ease;
         }
 
+        /* Changes color and adds an underline to navigation links when mouse hovers over */
         nav a:hover {
             color: #222;
             text-decoration: underline;

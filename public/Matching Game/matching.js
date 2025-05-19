@@ -1,36 +1,54 @@
 // Term 2 Final Project Math Matching Game Javascript - Adhvik Harikrishnan (tweaked by Ethan)
 
-// Setting up the game
-const grid = document.querySelector('.grid'); // main game grid
-const endMessage = document.querySelector('.end-message'); // Message to display when the game ends
-const timerDisplay = document.getElementById('timer'); // Timer display element
-const finalTimeDisplay = document.getElementById('final-time'); // Final time display element
-const timeTakenInput = document.getElementById('timeTaken'); // Hidden input for time
+// Setting up game
 
-let startTime; // To store the start time
-let timerInterval; // To store the interval ID for the timer
+// Represents main HTML container for game tiles
+const grid = document.querySelector('.grid');
+// Message element displayed when game ends
+const endMessage = document.querySelector('.end-message');
+// HTML element used to display elapsed time during gameplay
+const timerDisplay = document.getElementById('timer');
+// HTML element used to display final time taken when game ends
+const finalTimeDisplay = document.getElementById('final-time');
+// Hidden input field used to store final time taken, often for form submission
+const timeTakenInput = document.getElementById('timeTaken');
 
-const totalTiles = 16; // For a 4x4 grid
+// Variable to store Date object when timer starts
+let startTime;
+// Variable to store ID returned by setInterval, used to clear timer later
+let timerInterval;
+
+// Total number of tiles in game grid (4x4 = 16)
+const totalTiles = 16;
+// Number of matching pairs needed to win game (total tiles / 2)
 const numberOfPairs = totalTiles / 2; // 8 pairs
 
-// variables to manage the game's state
-let mathPairs = []; // This will hold the pairs for the problems and their answers
-let tileValues = []; // This will store  shuffled problem/answer strings for the tiles
-let tiles = []; // This will store tile elements
-let flippedTiles = []; // Keeps track of the currently flipped tiles
+// variables to manage game's state
+
+// Array that will store objects, each containing math 'problem' and its 'answer'
+let mathPairs = [];
+// Array that will store all problem and answer strings, shuffled, ready to be assigned to tiles
+let tileValues = [];
+// Array that will hold all HTML tile elements created for grid
+let tiles = [];
+// Array that temporarily stores two tile elements that have been most recently flipped by player
+let flippedTiles = [];
+// Counter that keeps track of how many pairs of tiles player has successfully matched
 let matchedTiles = 0;
 
-// Load the sound effect for matched tiles (ensure you have this file)
+// Load sound effect played when tiles are matched (ensure you have this file at correct path)
 const matchSound = new Audio('/Matching Game/match-sound.mp3'); // Ensure path is correct
 
-// Function to generate simple math problems (addition and subtraction)
-//CREDIT: 
+// Function to generate simple math problems (addition and subtraction) and their answers
+// It ensures a set number of unique pairs are created
 function generateMathPairs() {
-    mathPairs = []; 
-    const usedPairs = new Set(); 
+    mathPairs = []; // Clear existing pairs at start
+    const usedPairs = new Set(); // Use Set to efficiently track unique problem|answer combinations
 
+    // Continue generating pairs until desired number of pairs is reached
     while (mathPairs.length < numberOfPairs) {
         let a, b, problem, answer, result;
+        // Randomly decide if problem will be addition or subtraction
         const add = Math.random() < 0.5;
         let operationType;
         if (add) {
@@ -41,181 +59,225 @@ function generateMathPairs() {
         }
 
         if (operationType === 'add') {
-            a = Math.floor(Math.random() * 10) + 1; 
+            // Generate two random numbers (1-10) for addition
+            a = Math.floor(Math.random() * 10) + 1;
             b = Math.floor(Math.random() * 10) + 1;
             result = a + b;
+            // Skip if result is too large (e g > 20)
             if (result > 20) continue;
-            problem = `${a} + ${b}`;
-            answer = result.toString();
+            problem = `${a} + ${b}`; // Format problem as string
+            answer = result.toString(); // Convert answer to string
         } else {
-            a = Math.floor(Math.random() * 15) + 5;
-            b = Math.floor(Math.random() * 5) + 1; 
-            if (a < b) [a, b] = [b, a]; 
+            // Generate two random numbers for subtraction, ensuring first is larger
+            a = Math.floor(Math.random() * 15) + 5; // Number between 5 and 19
+            b = Math.floor(Math.random() * 5) + 1; // Number between 1 and 5
+            if (a < b) [a, b] = [b, a]; // Swap if a is smaller than b
             result = a - b;
-             if (result < 0) continue; 
-             if (result > 10 && a < 15) continue; 
-            problem = `${a} - ${b}`;
-            answer = result.toString();
+             // Skip if result is negative
+             if (result < 0) continue;
+             // Skip if result is large but first number was small (avoids simple problems with large results)
+             if (result > 10 && a < 15) continue;
+            problem = `${a} - ${b}`; // Format problem as string
+            answer = result.toString(); // Convert answer to string
         }
 
-        // Create a unique key for pair
+        // Create unique key string combining problem and answer
         const pairKey = `${problem}|${answer}`;
 
-        // Check if this exact pair (problem and answer) has already been used
+        // Check if exact pair (problem and answer) has already been used
         if (!usedPairs.has(pairKey)) {
+            // If not used, add pair object to mathPairs array
             mathPairs.push({ problem: problem, answer: answer });
+            // Add unique key to set to mark it as used
             usedPairs.add(pairKey);
         }
     }
 }
 
-//CREDIT: Fisher Yates Method - https://www.w3schools.com/js/tryit.asp?filename=tryjs_array_sort_random2
+// Function to shuffle array using Fisher-Yates (aka Knuth) Shuffle algorithm
+// This ensures randomness in tile placement
+//CREDIT: Fisher Yates Method - https://www w3schools com/js/tryit asp?filename=tryjs_array_sort_random2
 function shuffle(array) {
+    // Loop backward through array
     for (let i = array.length - 1; i > 0; i--) {
+        // Pick random index from remaining unshuffled portion
         const j = Math.floor(Math.random() * (i + 1));
+        // Swap element at current index with element at random index
         [array[i], array[j]] = [array[j], array[i]];
     }
 }
 
-//Prepares the problems and answers and shuffles them around
+// Prepares final list of values (problems and answers) for tiles and shuffles them
 function populateTileValues() {
-    tileValues = []; // Clear existing values
+    tileValues = []; // Clear existing values to start fresh
+    // Iterate over each generated math pair
     mathPairs.forEach(pair => {
-        tileValues.push(pair.problem, pair.answer); // Add both problem and answer
+        // Add both problem and its answer string to tileValues array
+        tileValues.push(pair.problem, pair.answer);
     });
-    shuffle(tileValues); // Mix them up
+    // Shuffle combined list of problems and answers randomly
+    shuffle(tileValues);
 }
 
-//Creates the tiles and adds them to the grid
+// Creates HTML tile elements based on shuffled values and adds them to grid container
 function createTiles() {
-    //Grid setup
-    generateMathPairs(); 
-    populateTileValues(); 
-    grid.innerHTML = ''; 
-    tiles = []; //Array to keep track of all tiles
+    // First, generate math problem/answer pairs
+    generateMathPairs();
+    // Then, populate and shuffle list of values that will go on tiles
+    populateTileValues();
+    // Clear any existing tiles from grid HTML
+    grid.innerHTML = '';
+    tiles = []; // Reset array that keeps track of all tile elements
 
+    // Iterate over each value in shuffled tileValues array
     tileValues.forEach((value, index) => {
-        const tile = document.createElement('div'); //Create new tile element
-        tile.classList.add('tile'); 
-        tile.dataset.index = index; //Store tile's og index
-        tile.dataset.value = value; //Store math problem/answer on the dataset
+        // Create new div element for tile
+        const tile = document.createElement('div');
+        // Add base 'tile' class for general styling
+        tile.classList.add('tile');
+        // Store tile's original index in shuffled array for potential future use (though not strictly needed for this logic)
+        tile.dataset.index = index;
+        // Store actual math problem or answer value on tile's dataset attribute
+        tile.dataset.value = value;
 
-        // Create inner elements for the front and back of the tile for the flip effect
+        // Create inner elements for front and back of tile for flip effect
         const back = document.createElement('div');
-        back.classList.add('back');
-        back.textContent = '?'; // Display '?' on front
+        back.classList.add('back'); // Class for back side styling
+        back.textContent = '?'; // Display '?' on back when flipped back over
 
         const front = document.createElement('div');
-        front.classList.add('front');
-        front.textContent = value; // Display the actual value on back
+        front.classList.add('front'); // Class for front side styling
+        front.textContent = value; // Display actual value (problem or answer) on front
 
+        // Append back and front elements to tile
         tile.appendChild(back);
         tile.appendChild(front);
 
-        tile.addEventListener('click', flipTile); //Makes it flip tile onclick
+        // Add click event listener to each tile that calls flipTile function
+        tile.addEventListener('click', flipTile);
+        // Append newly created tile element to main game grid in HTML
         grid.appendChild(tile);
-        tiles.push(tile); 
+        // Add tile element to local 'tiles' array for future reference
+        tiles.push(tile);
     });
 }
 
-// Function to start the timer
+// Function to start game timer
 function startTimer() {
+    // Record exact time when timer starts
     startTime = new Date();
+    // Set up interval that runs every 1000 milliseconds (1 second)
     timerInterval = setInterval(() => {
+        // Get current time inside interval
         const now = new Date();
+        // Calculate elapsed time in seconds
         const elapsedSeconds = Math.floor((now - startTime) / 1000);
+        // Update timer display element with elapsed time
         timerDisplay.textContent = `Time: ${elapsedSeconds}s`;
-    }, 1000); // Update every second
+    }, 1000); // Update each second
 }
 
-// Function to stop the timer
+// Function to stop game timer
 function stopTimer() {
+    // Clear interval previously set by setInterval, stopping timer updates
     clearInterval(timerInterval);
 }
 
-// This function handles flipping a tile when it's clicked
+// This function handles click event on a tile, managing its flip state and game logic
 function flipTile() {
-     // If the game is over, or this tile is already matched, or two tiles are already flipped, ignore the click
+     // Check for conditions where tile click should be ignored:
+     // - If game is already won (all pairs matched)
+     // - If clicked tile has already been matched
+     // - If two tiles are currently already flipped and waiting to be checked
     if (matchedTiles === numberOfPairs || this.classList.contains('matched') || flippedTiles.length === 2) {
-        return;
+        return; // Exit function, ignoring click
     }
 
-    const tile = this;
-    // If the clicked tile is already one of the two currently flipped tiles, ignore
+    const tile = this; // Reference to clicked tile element
+    // If clicked tile is one of two currently in flippedTiles array, ignore click (prevents double-clicking same tile)
     if (flippedTiles.includes(tile)) {
-         return;
+         return; // Exit function, ignoring click
     }
 
-    // Reveal the tile's content and add the 'flipped' class for animation
-    // tile.textContent = tile.dataset.value;
-    tile.classList.add('flipped'); // Start the flip animation
+    // Add 'flipped' class to tile's class list
+    // This class triggers CSS transition for flip animation
+    tile.classList.add('flipped');
 
-    flippedTiles.push(tile); // Add this tile to our list of flipped tiles
+    // Add current tile element to array keeping track of currently flipped tiles
+    flippedTiles.push(tile);
 
+    // Check how many tiles are currently flipped
     if (flippedTiles.length === 1) {
-        // If this is the first tile being flipped and it hasn't started yet, start the timer
-        if (!startTime) { 
+        // If this is first tile flipped (and timer hasn't started yet), start timer
+        if (!startTime) {
              startTimer();
         }
     } else if (flippedTiles.length === 2) {
-        // If two tiles are flipped, check if they match after a brief delay
-        setTimeout(checkMatch, 1000);
+        // If two tiles are now flipped, wait for short delay before checking if they match
+        // This delay allows player to see both flipped tiles before they are potentially flipped back
+        setTimeout(checkMatch, 1000); // Wait 1 second (1000 milliseconds)
     }
 }
 
-// This function checks if two flipped tiles are a matching pair
+// This function is called after short delay when two tiles are flipped
+// It checks if two flipped tiles form matching problem-answer pair
 function checkMatch() {
+    // Get two tile elements that were most recently flipped from flippedTiles array
     const [firstTile, secondTile] = flippedTiles;
+    // Get data-value (problem or answer string) from each of flipped tiles
     const firstValue = firstTile.dataset.value;
     const secondValue = secondTile.dataset.value;
 
-    let isMatch = false;
+    let isMatch = false; // Flag to indicate if match is found
 
-    // Check if the two values form a problem-answer pair from our original mathPairs
+    // Iterate through original mathPairs array to check if two flipped values correspond to a pair
     for (const pair of mathPairs) {
+        // Check if (firstValue is problem AND secondValue is answer) OR
+        // (firstValue is answer AND secondValue is problem) for current pair
         if ((firstValue === pair.problem && secondValue === pair.answer) ||
             (firstValue === pair.answer && secondValue === pair.problem)) {
-            isMatch = true;
-            break; // Found a match
+            isMatch = true; // Set flag to true because match is found
+            break; // Exit loop early as match is confirmed
         }
     }
 
     if (isMatch) {
-        // Tiles match!
-        matchedTiles++; // Increase the count of matched pairs
+        // If tiles are matching pair:
+        matchedTiles++; // Increment counter for successfully matched pairs
 
-        // Add 'matched' class and disable clicking on these tiles
+        // Add 'matched' class to both tiles for styling (e g a border change)
         firstTile.classList.add('matched');
         secondTile.classList.add('matched');
-        
-        matchSound.play(); // Play the match sound effect
 
-        flippedTiles = []; // Reset the flipped tiles list
+        matchSound.play(); // Play sound effect for a successful match
 
-        // Check if the game is won
+        flippedTiles = []; // Clear array of flipped tiles since these two are now matched
+
+        // Check if total number of matched pairs equals total number of pairs in game
         if (matchedTiles === numberOfPairs) {
-            stopTimer(); // Stop the timer
-            const endTime = new Date();
-            const timeTaken = (endTime - startTime) / 1000; // Time in seconds
+            stopTimer(); // If all pairs are matched, stop game timer
+            const endTime = new Date(); // Get exact time when game ended
+            // Calculate total time taken by subtracting start time from end time and converting milliseconds to seconds
+            const timeTaken = (endTime - startTime) / 1000;
 
-            // Display the end message and the final time
-            finalTimeDisplay.textContent = `Your time: ${timeTaken.toFixed(1)} seconds`; // Display with 1 decimal place
-            timeTakenInput.value = timeTaken.toFixed(1); // Set the hidden input value
-            endMessage.classList.remove('hidden'); // Show the "You win" message
+            // Update final time display element with calculated time taken, formatted to one decimal place
+            finalTimeDisplay.textContent = `Your time: ${timeTaken.toFixed(1)} seconds`;
+            // Set value of hidden input field with final time taken (formatted)
+            timeTakenInput.value = timeTaken.toFixed(1);
+            // Remove 'hidden' class from end game message element to make it visible
+            endMessage.classList.remove('hidden');
         }
 
     } else {
-        // Tiles do not match - flip them back after a delay
+        // If tiles do not match, set timeout to flip tiles back after short delay
         setTimeout(() => {
-            firstTile.classList.remove('flipped'); // Flip back animation
-            secondTile.classList.remove('flipped'); // Flip back animation
+            firstTile.classList.remove('flipped'); // Remove 'flipped' class from first tile to flip it back
+            secondTile.classList.remove('flipped'); // Remove 'flipped' class from second tile to flip it back
 
-            flippedTiles = []; // Reset flipped tiles list after mismatch
-        }, 500);
+            flippedTiles = []; // Clear array of flipped tiles because they didn't match and are being reset
+        }, 500); // Wait .5 seconds before flipping them back
     }
 }
 
-// Start the game when the page loads
+// Call createTiles function to set up game board with tiles when script first loads
 createTiles();
-
-// test test test

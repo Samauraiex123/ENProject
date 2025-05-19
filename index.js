@@ -1,5 +1,3 @@
-//test change 1 - by adhvik harikrishnan
-
 import express from 'express';
 import path from 'path';
 import mongoose from 'mongoose';
@@ -7,22 +5,32 @@ import methodOverride from 'method-override';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 
+// Express application instance
 const app = express();
 
+// Gets current file path in ES modules
 const __filename = fileURLToPath(import.meta.url);
+// Gets directory name of current file in ES modules
 const __dirname = dirname(__filename);
 
+// Connects to MongoDB database
 mongoose.connect('mongodb://localhost:27017/matchingGameDB')
   .then(() => console.log('MongoDB connected'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
+// Use method override middleware
 app.use(methodOverride('_method'));
+// Serves static files from 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
+// Parses URL-encoded bodies (as sent by HTML forms)
 app.use(express.urlencoded({ extended: true }));
 
+// Sets view engine to ejs
 app.set('view engine', 'ejs');
+// Sets directory for views
 app.set('views', path.join(__dirname, 'views'));
 
+// Defines schema for score documents
 const scoreSchema = new mongoose.Schema({
   name: String,
   timeTaken: {
@@ -35,21 +43,25 @@ const scoreSchema = new mongoose.Schema({
   },
 });
 
-
+// Creates Mongoose model for scores
 const Score = mongoose.model('Score', scoreSchema);
 
+// Handles GET requests to root URL
 app.get('/', (req, res) => {
   res.render('home');
 });
 
+// Handles GET requests to /games URL
 app.get('/games', (req, res) => {
   res.render('games');
 });
 
+// Handles GET requests to /games/matching URL, sends matching game HTML file
 app.get('/games/matching', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'Matching Game', 'matching.html'));
 });
 
+// Handles POST requests to save new score
 app.post('/games/matching/score', async (req, res) => {
   const { name, timeTaken } = req.body;
   try {
@@ -62,6 +74,7 @@ app.post('/games/matching/score', async (req, res) => {
   }
 });
 
+// Handles GET requests to /games/matching/leaderboard URL, fetches and displays scores
 app.get('/games/matching/leaderboard', async (req, res) => {
   try {
     const scores = await Score.find({}).sort({ timeTaken: 1 });
@@ -72,6 +85,7 @@ app.get('/games/matching/leaderboard', async (req, res) => {
   }
 });
 
+// Extracts YouTube video ID from a URL
 // Source: https://stackoverflow.com/questions/3452546/how-do-i-get-the-youtube-video-id-from-a-url
 function getYouTubeVideoID(url) {
   const regex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i;
@@ -79,6 +93,7 @@ function getYouTubeVideoID(url) {
   return match ? match[1] : null;
 }
 
+// Handles GET requests to /videos URL, prepares video data and renders videos page
 app.get('/videos', (req, res) => {
   const rawVideos = [
     { id: 1, title: 'Exercise Video 1', url: 'https://youtu.be/QHPi3tVbq6U?si=nGKwlkb5ngbLbI2b' },
@@ -102,9 +117,9 @@ app.get('/videos', (req, res) => {
   res.render('videos', { videos });
 });
 
-
+// Defines port server will listen on
 const PORT = process.env.PORT || 3000;
+// Starts Express server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
- 

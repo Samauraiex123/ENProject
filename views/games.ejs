@@ -1,18 +1,15 @@
-<!DOCTYPE html>
-<html>
-<title>Games List</title>
 <style>
+  /* Defines white background and ensures text is centered */
   body {
       font-family: Arial, sans-serif;
       background-color: white;
-      color: black;
       margin: 0;
       padding-top: 80px;
       text-align: center;
       min-height: 100vh;
       box-sizing: border-box;
   }
-
+  /* Container for hover sliding navigation bar */
   .header-hover-area {
       position: fixed;
       top: 0;
@@ -20,45 +17,45 @@
       width: 100%;
       z-index: 1000;
   }
-
+  /* Just a slight top added to the dropdown bar so viewers know it's there */
   .hover-trigger {
       height: 30px;
-      background-color: rgba(200, 200, 200, 0.8);
-      cursor: pointer;
+      background-color: #eee;
   }
-
+  /* Animates and styles dropping navigation bar */
   .sliding-nav-container {
       width: 100%;
       background-color: #eee;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
       transform: translateY(-100%);
-      transition: transform 0.3s ease-out;
+      transition: transform 0.5s ease-out;
       padding: 10px 0;
   }
-
+  /* Defines margins and text alignment for the navigation bar */
   .sliding-nav-container nav {
-       margin: 0;
+       margin: 5px;
        text-align: center;
   }
-
+  /* Styles unhovered navigation links */
   .sliding-nav-container nav a {
       display: inline-block;
       margin: 0 15px;
       text-decoration: none;
-      color: #333;
+      color: blue;
       font-size: 4em;
-      transition: color 0.3s ease;
+      transition: color 1s ease;
   }
-
+  /* Transitions navigation links to darker color when hovered */
   nav a:hover {
-      color:#000;
+      color:darkslategray;
+      transition: color 1s ease;
       text-decoration: underline;
   }
-
+  /**/
   .header-hover-area:hover .sliding-nav-container {
       transform: translateY(0);
   }
-
+  /* Defines main header "Games List" */
   h1 {
     color: #222;
     margin-top: 0;
