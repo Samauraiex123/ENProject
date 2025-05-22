@@ -1,14 +1,15 @@
 <style>
-    /* Defines white background and ensures text is centered */
+    /* Defines gradient background and ensures text is centered */
     body {
-        font-family: Arial, sans-serif;
-        background-color: white;
+        font-family: Verdana, sans-serif;
+        background: linear-gradient(to bottom, rgb(255, 222, 173), rgb(173, 216, 230));
         margin: 0;
         padding-top: 80px;
         text-align: center;
         min-height: 100vh;
         box-sizing: border-box;
     }
+
     /* Container for hover sliding navigation bar */
     .header-hover-area {
         position: fixed;
@@ -17,63 +18,105 @@
         width: 100%;
         z-index: 1000;
     }
-    /* Just a slight top added to the dropdown bar so viewers know it's there */
-    .hover-trigger {
-        height: 30px;
-        background-color: #eee;
-    }
+
     /* Animates and styles dropping navigation bar */
     .sliding-nav-container {
         width: 100%;
-        background-color: #eee;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        transform: translateY(-100%);
-        transition: transform 0.5s ease-out;
+        background-color: rgb(255, 218, 185);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
         padding: 10px 0;
+        transform: translateY(0);
+        transition: none;
     }
+
     /* Defines margins and text alignment for the navigation bar */
     .sliding-nav-container nav {
-         margin: 5px;
-         text-align: center;
+        margin: 5px;
+        text-align: center;
     }
+
     /* Styles unhovered navigation links */
     .sliding-nav-container nav a {
         display: inline-block;
-        margin: 0 15px;
+        margin: 0 20px;
         text-decoration: none;
-        color: blue;
-        font-size: 4em;
-        transition: color 1s ease;
+        color: rgb(0, 102, 204);
+        font-size: 2.5em;
+        transition: color 0.3s ease, transform 0.3s ease;
     }
-    /* Transitions navigation links to darker color when hovered */
+
+    /* Transitions navigation links to different color when hovered */
     nav a:hover {
-        color:darkslategray;
-        transition: color 1s ease;
+        color: rgb(255, 105, 180);
+        transform: scale(1.1);
         text-decoration: underline;
     }
-    /**/
+
+    /* Enables the dropdown bar to... drop down */
     .header-hover-area:hover .sliding-nav-container {
         transform: translateY(0);
     }
-    /* Defines main header "Welcome to the Home Page" */
+
+    /* Defines main header "Welcome to EduPlay" */
     h1 {
-      color: #222;
-      margin-top: 0;
-      margin-bottom: 20px;
-      font-size: 6em;
+        color: rgb(72, 61, 139);
+        margin-top: 0;
+        margin-bottom: 20px;
+        font-size: 6em;
+    }
+
+    /* Formats home page description */
+    .description {
+        font-size: 1.5em;
+        max-width: 80%;
+        margin: 0 auto;
+        text-align: center;
+        color: rgb(75, 0, 130);
+        background-color: rgb(255, 239, 213);
+        border: 2px solid rgb(157, 189, 232);
+        border-radius: 15px;
+        padding: 15px;
+        margin: 40px auto;
+        max-width: 37.5em;
+        transition: color .5s, transform .5s;
+    }
+    .description:hover {
+        color: rgb(72, 34, 73);
+        transform: scale(1.05);
+    }
+
+    /* For bottom playground image */
+    .bottom-image {
+        width: 100%;
+        max-width: 50%;
+        border-radius: 20px;
+        display: block;
+        margin: 40px auto 20px auto;
     }
 </style>
-<h1>Welcome To The Home Page</h1>
-<div class="header-hover-area">
-    <div class="hover-trigger">
+
+
+<h1>Welcome To EduPlay!</h1>
+
+<body>
+    <div class="header-hover-area">
+        <div class="sliding-nav-container">
+            <nav> 
+                <a href="/games">Play Games</a>
+                <a href="/videos">Watch Videos</a>
+            </nav>
+        </div>
     </div>
-  
-    <div class="sliding-nav-container">
-      <nav> 
-        <a href="/games">Play Games</a>
-        <a href="/videos">Watch Videos</a>
-      </nav>
+
+    <div class="description">
+       EduPlay is a colorful, secure world where 2 to 7 year olds embark on joyful journeys through early math. 
+        Here, children spark their curiosity with playful matching adventures recognizing numbers at their own pace, 
+        while animated videos ensure that the children do their proper exercise. 
+        Alongside with these exercises, our leaderboard celebrates every little victory, 
+        motivating young learners to reach higher with each click. EduPlay turns screen time into a confidence-boosting environment, 
+        where every game and video lays the foundation for the love of learning.
+        
     </div>
-  </div>
-  Educational website for kids from ages 2-7 with games and videos for reading and math.
-  
+
+    <img src="/playground.jpg" class="bottom-image" alt="Playground">
+</body>

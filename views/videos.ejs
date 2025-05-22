@@ -10,15 +10,16 @@
     */
     body {
       font-family: Arial, sans-serif;
-      background-color: white;
+      background: linear-gradient(to bottom, rgb(255, 222, 173), rgb(173, 216, 230));
       margin: 0;
       padding: 20px;
       text-align: center;
+      min-height: 100vh;
     }
 
     /* Defines color and size of header "Exercise Video" */
     h1 {
-      color: black;
+      color: rgb(72, 61, 139);
       font-size: 4em;
     }
 
@@ -26,36 +27,44 @@
     nav a {
       margin: 0 10px;
       text-decoration: none;
-      color: #555;
+      color: rgb(0, 102, 204);
       font-size: 2em;
       margin: 2em;
+      transition: color 0.5s ease;
     }
 
-    /* Adds underline when mouse hovers over */
+    /* Adds underline when mouse hovers over links */
     nav a:hover {
       text-decoration: underline;
+      color: rgb(255, 105, 180);
     }
 
-    /* Adds space below search bar. */
+    /* Adds space below search bar */
     .search-container {
       margin-bottom: 20px;
+      
     }
 
     /* Defines search input's background and text color along with size and spacing */
     .search-container input {
       padding: 10px;
       font-size: 1em;
-      width: 80%;
+      width: 100%;
       max-width: 400px;
       border: 1px solid #ccc;
       border-radius: 5px;
-      background-color: white;
-      color: black;
+      background-color: rgb(255, 248, 220);
+      color: darkblue;
+      transition: transform 0.3s ease;
+    }
+
+    .search-container input:hover {
+      transform: scale(1.05);
     }
 
     /* Sets color of placeholder text in search input */
     .search-container input::placeholder {
-      color: #888;
+      color: darkslateblue;
     }
 
     /*
@@ -75,19 +84,24 @@
       Styles each individual video card
     */
     .video-item {
-      background-color: #f9f9f9;
-      border: 1px solid #ddd;
+      background-color: rgb(255, 239, 213);
+      border: 2px solid rgb(255, 182, 193);
       border-radius: 8px;
       padding: 15px;
       width: 300px; 
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       text-align: left; 
+      transition: transform 0.2s ease;
+    }
+    /* Makes it slightly bigger when mouse hovers over video */
+    .video-item:hover {
+      transform: scale(1.05);
     }
 
     /* Styles the title heading within a video card */
     .video-card h3 {
       margin-top: 0;
-      color: #333;
+      color: rgb(72, 61, 139);
       font-size: 1.2em;
     }
 
@@ -133,14 +147,14 @@
         placeholder="Search by title..."
       />
     </div>
-    
+
     <div class="list">
       <% if (videos && videos.length) { %>
         <% videos.forEach(video => { %>
           <div class="video-item video-card">
             <h3 class="video-title"><%= video.title %></h3>
             <div class="video-container">
-              <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Permissions-Policy#directives -->
+              <!-- CREDITS: https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Permissions-Policy#directives -->
               <iframe
                 src="<%= video.embedUrl %>"
                 frameborder="0"
@@ -150,20 +164,39 @@
             </div>
           </div>
         <% }) %>
-      <% } else { %>
-        <p class="no-videos">No videos available at the moment.</p>
       <% } %>
     </div>
+
+    <!-- Always present in DOM, initially hidden, toggled by JS -->
+    <p id="noResultsMessage" style="display:none;">No videos match your search.</p>
   </div>
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/2.3.1/list.min.js"></script>
 
   <script>
-    // Creates new instance of the List.js object
-    var videoList = new List('videoGallery', { // Specifies container element List.js should manage by its ID('videoGallery'), meaning it will look inside this element for list and search input
-    valueNames: ['video-title'], // Tells List.js to use text content of elements with class 'video-title' for searching and sorting
-    listClass: 'list' // Tells List.js which element in main container 'videoGallery' holds actual list items, so basically looks for elements with class 'list'
-  });
+    // Initialize List.js 
+    var videoList = new List('videoGallery', {
+      valueNames: ['video-title'],
+      listClass: 'list'
+    });
+
+    var noResultsMessage = document.getElementById('noResultsMessage'); // Gets no results messages
+
+    // Immediately check the number of items and set initial display
+    if (videoList.items.length === 0) {
+      noResultsMessage.style.display = 'block'; // Show if no items initially
+    } else {
+      noResultsMessage.style.display = 'none'; // Hide if there are items initially
+    }
+
+    // Show "No results" message when filter returns no matches
+    videoList.on('updated', function (list) {
+      if (list.matchingItems.length === 0) {
+        noResultsMessage.style.display = 'block'; // Show if no items
+      } else {
+        noResultsMessage.style.display = 'none';  // Hide if there are items
+      }
+    });
   </script>
 
 </body>

@@ -8,9 +8,9 @@ import { dirname } from 'path';
 // Express application instance
 const app = express();
 
-// Gets current file path in ES modules
+// Gets current file path in Express modules
 const __filename = fileURLToPath(import.meta.url);
-// Gets directory name of current file in ES modules
+// Gets directory name of current file in Express modules
 const __dirname = dirname(__filename);
 
 // Connects to MongoDB database

@@ -8,7 +8,7 @@
         /* Defines background of page and centers content */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background: linear-gradient(to bottom, rgb(255, 222, 173), rgb(173, 216, 230));
             display: flex;
             justify-content: center;
             min-height: 100vh;
@@ -19,7 +19,7 @@
         /* Styles main container for leaderboard */
         .leaderboard-container {
             text-align: center;
-            background-color: #ddd;
+            background-color: rgb(255, 239, 213);
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
@@ -30,7 +30,7 @@
         /* Styles main heading "Matching Game Leaderboard" */
         h1 {
             font-size: 40px;
-            color: darkolivegreen;
+            color: rgb(72, 61, 139);
             margin-bottom: 20px;
         }
 
@@ -44,15 +44,15 @@
         /* Styles all cells in the leaderboard table */
         .leaderboard-table th, .leaderboard-table td {
             padding: 12px;
-            border-bottom: 1px solid #bbb;
+            border-bottom: 1px solid rgb(157, 189, 232);
             text-align: left;
-            color: darkolivegreen;
+            color: rgb(75, 0, 130);
         }
 
         /* Styles specifically the table header cells */
         .leaderboard-table th {
-            background-color: #ccc;
-            color: darkolivegreen;
+            background-color: rgb(255, 218, 185);
+            color: rgb(75, 0, 130);
             font-weight: bold;
             text-transform: uppercase;
             font-size: 0.9em;
@@ -65,27 +65,29 @@
 
         /* Styles background color of even-numbered rows in table body for stripe effect */
         .leaderboard-table tbody tr:nth-child(even) {
-            background-color: #d5d5d5;
+            background-color: rgb(229, 227, 223);
         }
 
         /* Changes background color of rows in table body when mouse hovers over */
         .leaderboard-table tbody tr:hover {
-            background-color: #c7c7c7;
+            background-color: rgb(255, 222, 173);
         }
 
         /* Styles data cells in first row of table body for 1st place entry. */
         .leaderboard-table tbody tr:nth-child(1) td {
-            color: darkgoldenrod;
+            color: rgb(182, 155, 37);
             font-weight: bold;
         }
-        /* Styles data cells in first row of table body for 2nd place entry. */
+
+        /* Styles data cells in second row of table body for 2nd place entry. */
         .leaderboard-table tbody tr:nth-child(2) td {
-            color: darkgrey;
+            color: rgb(123, 123, 123);
             font-weight: bold;
         }
-        /* Styles data cells in first row of table body for 3rd place entry. */
+
+        /* Styles data cells in third row of table body for 3rd place entry. */
         .leaderboard-table tbody tr:nth-child(3) td {
-            color: #633f1b;
+            color: rgb(52, 37, 5);
             font-weight: bold;
         }
 
@@ -98,14 +100,14 @@
         nav a {
             margin: 0 15px;
             text-decoration: none;
-            color: #222;
+            color: rgb(0, 102, 204);
             font-size: 1.1em;
             transition: color 0.3s ease;
         }
 
         /* Changes color and adds an underline to navigation links when mouse hovers over */
         nav a:hover {
-            color: #222;
+            color: rgb(255, 105, 180);
             text-decoration: underline;
         }
     </style>
